@@ -70,9 +70,8 @@ function extractInvokedContractIds(innerTransactionXdr: string, networkPassphras
   for (const op of tx.operations) {
     if (op.type === 'invokeHostFunction') {
       const hostFn = (op as Operation.InvokeHostFunction).func;
-      if (hostFn.switch().name === 'hostFunctionTypeInvokeContract') {
-        const invokeArgs = hostFn.invokeContract();
-        ids.push(Address.fromScAddress(invokeArgs.contractAddress()).toString());
+      if (hostFn.type === 'hostFunctionTypeInvokeContract') {
+        ids.push(Address.fromScAddress(hostFn.invokeContract.contractAddress).toString());
       }
     }
   }
